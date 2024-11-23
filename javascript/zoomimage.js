@@ -90,49 +90,31 @@ onUiLoaded(function () {
   function imgEL(E) {
     const imgRect = img.getBoundingClientRect();
     if (E.clientX >= imgRect.left && E.clientX <= imgRect.right &&
-        E.clientY >= imgRect.top && E.clientY <= imgRect.bottom) {
-      return true;
-    }
+        E.clientY >= imgRect.top && E.clientY <= imgRect.bottom) {return true;}
     return false;
   }
 
-  function imgClick(E) {
-    if (!Groped) {
-      E.stopPropagation();
-      E.reset;
-    }
-  }
+  function imgClick(E) {if (!Groped) {E.stopPropagation();E.reset;}}
 
   let E = {
     wheel: function (E) {
       if (!imgEL(E)) return;
       E.stopPropagation();
       E.preventDefault();
-
       img.style.transition = "all 0.4s ease";
-
       let delta = Math.max(-1, Math.min(1, E.wheelDelta || -E.detail));
       let zoomStep = 0.1;
       let zoom = 1 + delta * zoomStep;
       let lastScale = scale;
-      scale *= zoom;
-      scale = Math.max(0.1, scale);
-  
       let centerX = imageContainer.offsetWidth / 2;
       let centerY = imageContainer.offsetHeight / 2;
-  
       let imgCenterX = offsetX + centerX;
       let imgCenterY = offsetY + centerY;
-  
-      offsetX =
-        E.clientX -
-        ((E.clientX - imgCenterX) / lastScale) * scale - centerX;
-      offsetY =
-        E.clientY -
-        ((E.clientY - imgCenterY) / lastScale) * scale - centerY;
-  
-      img.style.transform =
-        "translate(" + offsetX + "px, " + offsetY + "px) scale(" + scale + ")";
+      scale *= zoom;
+      scale = Math.max(0.1, scale);
+      offsetX = E.clientX - ((E.clientX - imgCenterX) / lastScale) * scale - centerX;
+      offsetY = E.clientY - ((E.clientY - imgCenterY) / lastScale) * scale - centerY;
+      img.style.transform = "translate(" + offsetX + "px, " + offsetY + "px) scale(" + scale + ")";
     },
   
     mousedown: function (E) {
@@ -184,38 +166,21 @@ onUiLoaded(function () {
     },
 
     reset() {
-      scale = 1;
-      lastX = 0;
-      lastY = 0;
-      offsetX = 0;
-      offsetY = 0;
-      img.style.transform = "none";
-      img.style.transition = "all 0.4s ease";
-      img.onclick = undefined;
-      Groped = false;
+      scale = 1; lastX = 0; lastY = 0; offsetX = 0; offsetY = 0;
+      img.style.transform = "none"; img.style.transition = "all 0.4s ease";
+      img.onclick = undefined; Groped = false;
     }
   };
 
   function reloadZoomEvent(EEE) {
     if (!EEE) return;
-    imageContainer.removeEventListener("click", E.reset);
-    imageContainer.removeEventListener("wheel", E.wheel);
-    img.removeEventListener("mousedown", E.mousedown);
-    img.removeEventListener("mousemove", E.mousemove);
-    img.removeEventListener("mouseup", E.mouseup);
-    img.removeEventListener("mouseleave", E.mouseleave);
+    imageContainer.removeEventListener("click", E.reset); imageContainer.removeEventListener("wheel", E.wheel);
+    img.removeEventListener("mousedown", E.mousedown); img.removeEventListener("mousemove", E.mousemove);
+    img.removeEventListener("mouseup", E.mouseup); img.removeEventListener("mouseleave", E.mouseleave);
     E = EEE;
-
-    imageContainer.addEventListener("click", E.reset);
-    imageContainer.addEventListener("wheel", E.wheel);
-    img.addEventListener("mousedown", E.mousedown);
-    img.addEventListener("mousemove", E.mousemove);
-    img.addEventListener("mouseup", E.mouseup);
-    img.addEventListener("mouseleave", E.mouseleave);
-    img.ondrag = img.ondragend = img.ondragstart = function (e) {
-      e.stopPropagation();
-      e.preventDefault();
-    };
-  }
+    imageContainer.addEventListener("click", E.reset); imageContainer.addEventListener("wheel", E.wheel);
+    img.addEventListener("mousedown", E.mousedown); img.addEventListener("mousemove", E.mousemove);
+    img.addEventListener("mouseup", E.mouseup); img.addEventListener("mouseleave", E.mouseleave);
+    img.ondrag = img.ondragend = img.ondragstart = function (e) {e.stopPropagation(); e.preventDefault();};}
   reloadZoomEvent(E);
 });
