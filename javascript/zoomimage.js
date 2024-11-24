@@ -5,7 +5,7 @@ onUiLoaded(function () {
   imageContainer.style.overflow = "hidden";
 
   let modalControls = imageContainer.getElementsByClassName("modalControls")[0];
-  var SB = 'var(--button-secondary-text-color)';
+  var SB = 'var(--primary-400)';
 
   if (modalControls) {
     const Controlsmodal = document.createElement("style");
