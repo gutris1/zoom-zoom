@@ -10,6 +10,11 @@ onUiLoaded(function () {
   if (modalControls) {
     const Controlsmodal = document.createElement("style");
     Controlsmodal.textContent = `
+      #lightboxModal {
+        backdrop-filter: blur(10px);
+        background-color: rgba(0, 0, 0, 0.7) !important;
+       }
+
       .modalZoom, .modalTileImage, .modalToggleLivePreview {
         display: none;
       }
